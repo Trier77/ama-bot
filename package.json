@@ -1,0 +1,14 @@
+{
+  "name": "ama-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "--watch node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
