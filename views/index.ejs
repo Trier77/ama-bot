@@ -11,11 +11,17 @@
       <h1>AMA</h1>
       <section class="form">
         <h2>Spørg om hvad som helst</h2>
-        <form action="/my-handling-form-page" method="post">
-        <label for="msg">Skriv dit spørgsmål her:</label>
-        <textarea id="msg" name="user_message"></textarea>
+        <form action="/ask" method="post">
+        <label for="question">Skriv dit spørgsmål her:</label>
+        <input id="question" name="question" type="text"></input>
         <button type="submit">Spørg</button>
         </form>
+
+        <% if (question) { %>
+        <article class="question">
+          <p><%= question %></p>
+        </article>
+        <% } %>
         </section>
       
       
