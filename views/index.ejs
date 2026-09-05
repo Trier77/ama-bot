@@ -17,11 +17,14 @@
         <button type="submit">Spørg</button>
         </form>
 
-        <% if (question) { %>
-        <article class="question">
-          <p><%= question %></p>
-        </article>
+        
+        <% for (const message of messages) { %>
+          <article class="<%= message.type %>">
+            <p><%= message.text %></p>
+          </article>
         <% } %>
+        </article>
+        
         </section>
       
       
