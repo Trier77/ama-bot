@@ -24,17 +24,36 @@ const answers = [
     answer: "Jeg bruger minfritid på bl.a. sport og videografi og spil."
   }
 ];
+function findAnswers(question){
+  const normalizedQuestion =question.toLowerCase();
 
+  for (const answerGroup of answers) {
+    const hasMatch =answerGroup.keywords.some((keyword) => normalizedQuestion.includes(keyword));
+
+    if(hasMatch){
+      return answerGroup.answer;
+    }
+  }
+  return "Det ved jeg ikke.";
+}
+console.log(findAnswers("Hvad hedder du?"));
 
 app.get("/", (request, response) =>{
-    response.render("index", {messages});
+    response.render("index", {messages, error: ""});
 });
 
 app.post("/ask", (request, response) =>{
-    const question = request.body.question;
-    messages.push({type: "question", text: question});
-    messages.push({type: "answer", text: "Jeg leder efter et svar"});
-    response.render("index", {messages})
+    const question = request.body.question.trim();
+    let error = "";
+
+    if(!question){
+      error = "Skriv et spørgsmål, før du sender.";
+    } else {
+      messages.push({type: "question", text: question});
+      const answer = findAnswers(question);
+      messages.push({type: "answer", text: answer});
+    }   
+    response.render("index", {messages, error});
 });
 
 app.listen(port, () => {

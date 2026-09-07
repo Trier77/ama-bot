@@ -1,9 +1,18 @@
 *{
     margin: 0;
+    
 }
 
 form{
     display: grid;
     
     
+}
+
+.question{
+    color: aqua;
+}
+
+.answer{
+    color: orange;
 }

@@ -23,6 +23,10 @@
             <p><%= message.text %></p>
           </article>
         <% } %>
+
+        <% if (error) { %>
+          <p role="alert"><%= error %></p>
+        <% } %>
         </article>
         
         </section>
