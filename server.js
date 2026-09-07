@@ -22,6 +22,10 @@ const answers = [
   {
     keywords: ["fritid", "hobby", "kan lide"],
     answer: "Jeg bruger minfritid på bl.a. sport og videografi og spil."
+  },
+  {
+    keywords: ["fremtid", "arbejde", "vil du være", "vil du gerne være" , "vil du gerne lave"],
+    answer: "Jeg vil i fremtiden gerne arbejde med at lave digitale løsninger. Ikke så meget hjemmesider."
   }
 ];
 function findAnswers(question){
