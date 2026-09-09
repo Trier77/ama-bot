@@ -16,8 +16,12 @@
         <input id="question" name="question" type="text"></input>
         <button type="submit">Spørg</button>
         </form>
-
+        <form action="/clear-messages" method="POST">
+          <button type="submit">Ryd beskeder</button>
+        </form>
+      </section>
         
+      <section class="messages">
         <% for (const message of messages) { %>
           <article class="<%= message.type %>">
             <p><%= message.text %></p>
@@ -28,8 +32,10 @@
           <p role="alert"><%= error %></p>
         <% } %>
         </article>
+      </section>
         
-        </section>
+        
+        
       
       
     </main>

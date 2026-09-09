@@ -7,25 +7,39 @@ const messages = [];
 app.use(express.static("public"));
 app.use(express.urlencoded({extended: true}));
 
+
 app.set("view engine", "ejs");
+
+function sanitizeQuestion(input) {
+  return input.replace(/[\u0000-\u001F\u007F]/g, "");
+}
 
 
 const answers = [
   {
     keywords: ["navn", "hedder", "hvem er du"],
-    answer: "Jeg hedder Trier. Hvad vil du ellers vide om mig?"
+    answers: [
+      "Jeg hedder Trier. Hvad vil du ellers vide om mig?",
+      "Trier, dafuq you want",
+      "Mit er navn er Trier. Var der ellers noget?"]
   },
   {
     keywords: ["bor", "by", "fra"],
-    answer: "Jeg bor i Aarhus."
+    answers: [
+      "Jeg bor i Aarhus.",
+      "Jeg huserer i Aarhus, men kommer oprindeligt fra Vejen",
+      "Jeg kommer fra Vejen, men bor nu i Aarhus"]
   },
   {
     keywords: ["fritid", "hobby", "kan lide"],
-    answer: "Jeg bruger minfritid på bl.a. sport og videografi og spil."
+    answers:[
+      "Jeg går badminton og HEMA i min fritid.",
+      "Jeg bruger min fritid på bl.a. videografi, som jeg forsøger at gøre mere til noget karriere. ",
+      "Når jeg bare skal slappe af, kan jeg godt lide at spille på min PS3 eller PC"]
   },
   {
     keywords: ["fremtid", "arbejde", "vil du være", "vil du gerne være" , "vil du gerne lave"],
-    answer: "Jeg vil i fremtiden gerne arbejde med at lave digitale løsninger. Ikke så meget hjemmesider."
+    answers: "Jeg vil i fremtiden gerne arbejde med at lave digitale løsninger. Ikke så meget hjemmesider."
   }
 ];
 function findAnswers(question){
@@ -35,7 +49,8 @@ function findAnswers(question){
     const hasMatch =answerGroup.keywords.some((keyword) => normalizedQuestion.includes(keyword));
 
     if(hasMatch){
-      return answerGroup.answer;
+      const randomIndex = Math.floor(Math.random() * answerGroup.answers.length);
+      return answerGroup.answers[randomIndex];
     }
   }
   return "Det ved jeg ikke.";
@@ -47,19 +62,28 @@ app.get("/", (request, response) =>{
 });
 
 app.post("/ask", (request, response) =>{
-    const question = request.body.question.trim();
+    const rawquestion = request.body.question;
+    const question = sanitizeQuestion(rawquestion).trim();
     let error = "";
 
     if(!question){
       error = "Skriv et spørgsmål, før du sender.";
-    } else {
+    }
+    else if(question.length > 280) {
+      error = "Det er for meget tekst. Det gider jeg altså ikke at læse. Skriv lidt kortere.";
+    }
+    else {
       messages.push({type: "question", text: question});
-      const answer = findAnswers(question);
-      messages.push({type: "answer", text: answer});
+      const answers = findAnswers(question);
+      messages.push({type: "answers", text: answers});
     }   
     response.render("index", {messages, error});
 });
 
+app.post("clar-messages", (request, response) =>{
+  messages.length = 0;
+  response.redirect("/");
+})
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 })

@@ -1,5 +1,7 @@
 *{
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     
 }
 
@@ -9,10 +11,20 @@ form{
     
 }
 
-.question{
-    color: aqua;
+.messages{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.answer{
+.question{
+    color: aqua;
+    align-self: flex-end;
+    background-color: black;
+}
+
+.answers{
     color: orange;
+    align-self: flex-start;
+    background-color: #f1f5f9;
 }
