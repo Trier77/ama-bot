@@ -80,7 +80,7 @@ app.post("/ask", (request, response) =>{
     response.render("index", {messages, error});
 });
 
-app.post("clar-messages", (request, response) =>{
+app.post("/clear-messages", (request, response) =>{
   messages.length = 0;
   response.redirect("/");
 })
