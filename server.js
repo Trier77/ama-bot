@@ -61,15 +61,7 @@ app.get("/", (request, response) =>{
     response.render("index", {messages, error: ""});
 });
 
-app.get("/debug", (request, response) => {
-  console.log(request.query);
-  response.send(request.query);
-  });
 
-  app.get("/debug/:name", (request, response) => {
-    console.log(request.params);
-    response.send(request.params);
-  });
 
 app.post("/ask", (request, response) =>{
     const rawquestion = request.body.question;
