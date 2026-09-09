@@ -61,6 +61,16 @@ app.get("/", (request, response) =>{
     response.render("index", {messages, error: ""});
 });
 
+app.get("/debug", (request, response) => {
+  console.log(request.query);
+  response.send(request.query);
+  });
+
+  app.get("/debug/:name", (request, response) => {
+    console.log(request.params);
+    response.send(request.params);
+  });
+
 app.post("/ask", (request, response) =>{
     const rawquestion = request.body.question;
     const question = sanitizeQuestion(rawquestion).trim();
@@ -73,9 +83,9 @@ app.post("/ask", (request, response) =>{
       error = "Det er for meget tekst. Det gider jeg altså ikke at læse. Skriv lidt kortere.";
     }
     else {
-      messages.push({type: "question", text: question});
+      messages.push({type: "question", text: question, createdAt: new Date()});
       const answers = findAnswers(question);
-      messages.push({type: "answers", text: answers});
+      messages.push({type: "answers", text: answers, createdAt: new Date()});
     }   
     response.render("index", {messages, error});
 });
@@ -84,6 +94,8 @@ app.post("/clear-messages", (request, response) =>{
   messages.length = 0;
   response.redirect("/");
 })
+
+
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 })
